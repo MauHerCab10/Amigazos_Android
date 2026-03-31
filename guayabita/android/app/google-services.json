@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1045900816388",
+    "project_id": "guayabita-db",
+    "storage_bucket": "guayabita-db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045900816388:android:24a6e519f3b4d2a8e84551",
+        "android_client_info": {
+          "package_name": "com.example.guayabita"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7q7G1hyZwneiaB_p9sx4YAh5tzt58VdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
