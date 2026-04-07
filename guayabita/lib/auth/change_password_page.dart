@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool ocultarPassword = true;
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
+  final _currentPasswordController = TextEditingController();
+  final _newPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  bool ocultarCurrentPassword = true;
+  bool ocultarNewPassword = true;
+  bool ocultarConfirmPassword = true;
   String? error;
   bool cargando = false;
 
-  //Criterios de validación para la creación de una contraseña:
+  //Criterios de validación para la nueva contraseña
   bool tieneMayuscula(String p) => p.contains(RegExp(r'[A-Z]'));
   bool tieneMinuscula(String p) => p.contains(RegExp(r'[a-z]'));
   bool tieneNumero(String p) => p.contains(RegExp(r'[0-9]'));
@@ -24,21 +27,24 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //Validación del formulario
   bool get formularioValido {
-    final e = _emailController.text.trim();
-    final p = _passwordController.text;
-    return e.isNotEmpty &&
-        emailValido(e) &&
-        tieneMayuscula(p) &&
-        tieneMinuscula(p) &&
-        tieneNumero(p) &&
-        tieneSimbolo(p) &&
-        tieneLongitud(p);
+    final current = _currentPasswordController.text;
+    final newP = _newPasswordController.text;
+    final confirm = _confirmPasswordController.text;
+    return current.isNotEmpty &&
+        newP.isNotEmpty &&
+        confirm.isNotEmpty &&
+        newP == confirm &&
+        tieneMayuscula(newP) &&
+        tieneMinuscula(newP) &&
+        tieneNumero(newP) &&
+        tieneSimbolo(newP) &&
+        tieneLongitud(newP);
   }
 
   //Fortaleza de la contraseña
   String get fortaleza {
     int puntos = 0;
-    String p = _passwordController.text;
+    String p = _newPasswordController.text;
     if (tieneMayuscula(p)) puntos++;
     if (tieneMinuscula(p)) puntos++;
     if (tieneNumero(p)) puntos++;
@@ -58,22 +64,42 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(() => setState(() {}));
-    _passwordController.addListener(() => setState(() {}));
+    _currentPasswordController.addListener(() => setState(() {}));
+    _newPasswordController.addListener(() => setState(() {}));
+    _confirmPasswordController.addListener(() => setState(() {}));
   }
 
-  //Función para registrar un nuevo usuario con email y contraseña
-  Future<void> registrarUsuario() async {
+  //Función para cambiar la contraseña del usuario autenticado
+  Future<void> cambiarContrasena() async {
     setState(() {
       cargando = true;
       error = null;
     });
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null || user.email == null) {
+        throw FirebaseAuthException(
+          code: 'user-not-found',
+          message: 'Usuario no encontrado',
+        );
+      }
+
+      // Reautenticar con la contraseña actual
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: _currentPasswordController.text,
       );
-      if (mounted) Navigator.pop(context); //Regresa al Login tras éxito
+      await user.reauthenticateWithCredential(credential);
+
+      // Cambiar la contraseña
+      await user.updatePassword(_newPasswordController.text);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Contraseña cambiada exitosamente')),
+        );
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
       setState(() => error = e.message);
     } finally {
@@ -81,15 +107,14 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  //Construcción de la UI de la página de registro
+  //Construcción de la UI de la página de cambio de contraseña
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //AppBar
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 84, 94, 186),
         title: const Text(
-          "Crear cuenta",
+          "Cambiar contraseña",
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.w500,
@@ -97,8 +122,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ),
-
-      //Cuerpo de la pantalla
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -121,86 +144,120 @@ class _RegisterPageState extends State<RegisterPage> {
                 padding: const EdgeInsets.all(25),
                 child: Column(
                   children: [
-                    //Título del formulario
                     const Text(
-                      "Únete a Amigazos",
+                      "Cambiar contraseña",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                     const SizedBox(height: 20),
 
-                    //Campo de "Email"
+                    // Campo contraseña actual
                     TextField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
+                      controller: _currentPasswordController,
+                      obscureText: ocultarCurrentPassword,
                       decoration: InputDecoration(
-                        labelText: "Email",
-                        prefixIcon: const Icon(Icons.email_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        errorText: _emailController.text.isEmpty
-                            ? null
-                            : (emailValido(_emailController.text.trim())
-                                  ? null
-                                  : "Email con formato inválido"),
-                      ),
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    //Campo de "contraseña"
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: ocultarPassword,
-                      decoration: InputDecoration(
-                        labelText: "Contraseña",
+                        labelText: "Contraseña actual",
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            ocultarPassword
+                            ocultarCurrentPassword
                                 ? Icons.visibility
                                 : Icons.visibility_off,
                           ),
                           onPressed: () => setState(
-                            () => ocultarPassword = !ocultarPassword,
+                            () => ocultarCurrentPassword =
+                                !ocultarCurrentPassword,
                           ),
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Campo nueva contraseña
+                    TextField(
+                      controller: _newPasswordController,
+                      obscureText: ocultarNewPassword,
+                      decoration: InputDecoration(
+                        labelText: "Nueva contraseña",
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            ocultarNewPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () => setState(
+                            () => ocultarNewPassword = !ocultarNewPassword,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Campo confirmar nueva contraseña
+                    TextField(
+                      controller: _confirmPasswordController,
+                      obscureText: ocultarConfirmPassword,
+                      decoration: InputDecoration(
+                        labelText: "Confirmar nueva contraseña",
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            ocultarConfirmPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () => setState(
+                            () => ocultarConfirmPassword =
+                                !ocultarConfirmPassword,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        errorText:
+                            _confirmPasswordController.text.isNotEmpty &&
+                                _newPasswordController.text !=
+                                    _confirmPasswordController.text
+                            ? "Las contraseñas no coinciden"
+                            : null,
                       ),
                     ),
 
                     const SizedBox(height: 10),
 
-                    //Criterios de validación de la contraseña
+                    // Criterios de validación para la nueva contraseña
                     _visualizacionCriterio(
                       "Mayúsculas (A-Z)",
-                      tieneMayuscula(_passwordController.text),
+                      tieneMayuscula(_newPasswordController.text),
                     ),
                     _visualizacionCriterio(
                       "Minúsculas (a-z)",
-                      tieneMinuscula(_passwordController.text),
+                      tieneMinuscula(_newPasswordController.text),
                     ),
                     _visualizacionCriterio(
                       "Número (0-9)",
-                      tieneNumero(_passwordController.text),
+                      tieneNumero(_newPasswordController.text),
                     ),
                     _visualizacionCriterio(
                       "Símbolo (!@#\$%^&*)",
-                      tieneSimbolo(_passwordController.text),
+                      tieneSimbolo(_newPasswordController.text),
                     ),
                     _visualizacionCriterio(
                       "Al menos 12 caracteres",
-                      tieneLongitud(_passwordController.text),
+                      tieneLongitud(_newPasswordController.text),
                     ),
 
                     //Visualización de la fortaleza de la contraseña
-                    if (_passwordController.text.isNotEmpty) ...[
+                    if (_newPasswordController.text.isNotEmpty) ...[
                       Align(
                         alignment: Alignment.centerRight,
                         child: Row(
@@ -213,9 +270,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 fontSize: 13,
                               ),
                             ),
-
                             const SizedBox(width: 8),
-
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
@@ -241,14 +296,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (error != null)
                       Text(error!, style: const TextStyle(color: Colors.red)),
 
-                    //Botón de "Registrarse" (deshabilitado si el formulario no es válido o si está cargando)
+                    // Botón para cambiar la contraseña (deshabilitado si el formulario no es válido o si está cargando)
                     SizedBox(
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
                         onPressed: cargando || !formularioValido
                             ? null
-                            : registrarUsuario,
+                            : cambiarContrasena,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(
                             255,
@@ -265,7 +320,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 color: Colors.white,
                               )
                             : const Text(
-                                "Registrarse",
+                                "Cambiar contraseña",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -295,10 +350,4 @@ class _RegisterPageState extends State<RegisterPage> {
       Text(t, style: TextStyle(color: v ? Colors.green : Colors.grey)),
     ],
   );
-
-  //Función para validar el formato del email usando una expresión regular (RegEx)
-  bool emailValido(String email) {
-    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    return regex.hasMatch(email);
-  }
 }

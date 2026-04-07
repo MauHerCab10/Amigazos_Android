@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import '../auth/change_password_page.dart';
 
 class GuayabitaHome extends StatefulWidget {
   const GuayabitaHome({super.key});
@@ -74,14 +75,31 @@ class GuayabitaHomeState extends State<GuayabitaHome> {
           elevation: 4,
           scrolledUnderElevation: 4,
 
-          //Logout
+          //Menu
           actions: [
-            IconButton(
-              icon: const Icon(Icons.logout),
-              //Función para cerrar sesión del usuario actual
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                if (value == 'change_password') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChangePasswordPage(),
+                    ),
+                  );
+                } else if (value == 'logout') {
+                  FirebaseAuth.instance.signOut();
+                }
               },
+              itemBuilder: (BuildContext context) => [
+                const PopupMenuItem<String>(
+                  value: 'change_password',
+                  child: Text('Cambiar contraseña'),
+                ),
+                const PopupMenuItem<String>(
+                  value: 'logout',
+                  child: Text('Cerrar sesión'),
+                ),
+              ],
             ),
           ],
         ),
