@@ -81,8 +81,8 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  //Construcción de la UI de la página de registro
   @override
+  //Construcción de la UI de la página de Registro
   Widget build(BuildContext context) {
     return Scaffold(
       //AppBar

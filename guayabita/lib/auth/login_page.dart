@@ -106,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  //Construcción de la UI de Login
   Widget build(BuildContext context) {
     //Scaffold: esqueleto de la estructura visual básica de la pantalla con Material Design
     return Scaffold(

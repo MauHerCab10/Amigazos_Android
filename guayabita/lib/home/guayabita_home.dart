@@ -40,6 +40,7 @@ class GuayabitaHomeState extends State<GuayabitaHome> {
   @override
   //'build()' es el "Arquitecto" de la pantalla, función encargada de dibujar (renderizar) la UI
   //'BuildContext' es el "Mapa de Ubicación" del widget, le dice a Flutter dónde está ubicado este widget dentro del árbol de widgets y las funciones q puede cumplir
+  //Construcción de la UI de Bienvenida habiendose logueado en la App
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),

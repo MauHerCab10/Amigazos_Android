@@ -8,6 +8,7 @@ class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
   @override
+  //Construcción de la UI, según en la autenticación actual del usuario (pantalla de Login o de Bienvenida)
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance

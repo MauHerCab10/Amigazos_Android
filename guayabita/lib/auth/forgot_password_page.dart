@@ -37,9 +37,19 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     });
 
     try {
-      // Envío del correo de recuperación usando FirebaseAuth
+      // Configuración del link personalizado que apunta a mi dominio
+      final actionCodeSettings = ActionCodeSettings(
+        url: 'https://guayabita-db.web.app/',
+        handleCodeInApp: true,
+        iOSBundleId: 'com.example.guayabita',
+        androidPackageName: 'com.example.guayabita',
+        androidInstallApp: true,
+      );
+
+      // Envío del correo de recuperación con ActionCodeSettings
       await FirebaseAuth.instance.sendPasswordResetEmail(
         email: _emailController.text.trim(),
+        actionCodeSettings: actionCodeSettings,
       );
 
       //Firebase Auth (por seguridad) NO revela si un correo está registrado o no responde como si todo estuviera bien,
@@ -76,6 +86,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   @override
+  //Construcción de la UI de la página de Restablecimiento de contraseña
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

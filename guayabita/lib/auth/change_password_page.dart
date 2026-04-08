@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({super.key});
+  final String?
+  oobCode; // Código "Out-Of-Band" del email para restablecer contraseña
+
+  const ChangePasswordPage({super.key, this.oobCode});
 
   @override
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
@@ -25,11 +28,29 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool tieneSimbolo(String p) => p.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
   bool tieneLongitud(String p) => p.length >= 12;
 
+  // Detecta si la solicitud de cambio de contraseña proviene desde un correo
+  bool get esResetDesdeEmail =>
+      widget.oobCode != null && widget.oobCode!.isNotEmpty;
+
   //Validación del formulario
   bool get formularioValido {
-    final current = _currentPasswordController.text;
     final newP = _newPasswordController.text;
     final confirm = _confirmPasswordController.text;
+
+    // Si es reset desde email, no requiere contraseña actual
+    if (esResetDesdeEmail) {
+      return newP.isNotEmpty &&
+          confirm.isNotEmpty &&
+          newP == confirm &&
+          tieneMayuscula(newP) &&
+          tieneMinuscula(newP) &&
+          tieneNumero(newP) &&
+          tieneSimbolo(newP) &&
+          tieneLongitud(newP);
+    }
+
+    // Si no, entonces requiere contraseña actual (flujo normal)
+    final current = _currentPasswordController.text;
     return current.isNotEmpty &&
         newP.isNotEmpty &&
         confirm.isNotEmpty &&
@@ -76,38 +97,68 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       error = null;
     });
     try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null || user.email == null) {
-        throw FirebaseAuthException(
-          code: 'user-not-found',
-          message: 'Usuario no encontrado',
+      // Si la solicitud de reset viene desde Email: usar el código de verificación
+      if (esResetDesdeEmail) {
+        // Verificar que el código "oob" es válido
+        try {
+          await FirebaseAuth.instance.verifyPasswordResetCode(widget.oobCode!);
+        } catch (e) {
+          throw FirebaseAuthException(
+            code: 'invalid-reset-code',
+            message:
+                'El enlace de reset ha expirado (1 hora). Por favor, solicita uno nuevo.',
+          );
+        }
+
+        // Confirmar el reset de contraseña
+        await FirebaseAuth.instance.confirmPasswordReset(
+          code: widget.oobCode!,
+          newPassword: _newPasswordController.text,
         );
-      }
 
-      // Reautenticar con la contraseña actual
-      final credential = EmailAuthProvider.credential(
-        email: user.email!,
-        password: _currentPasswordController.text,
-      );
-      await user.reauthenticateWithCredential(credential);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Contraseña cambiada exitosamente')),
+          );
+          Navigator.pop(context);
+        }
+      } else {
+        // Flujo normal: cambiar contraseña estando autenticado
+        final user = FirebaseAuth.instance.currentUser;
+        if (user == null || user.email == null) {
+          throw FirebaseAuthException(
+            code: 'user-not-found',
+            message: 'Usuario no encontrado',
+          );
+        }
 
-      // Cambiar la contraseña
-      await user.updatePassword(_newPasswordController.text);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Contraseña cambiada exitosamente')),
+        // Reautenticar con la contraseña actual
+        final credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: _currentPasswordController.text,
         );
-        Navigator.pop(context);
+        await user.reauthenticateWithCredential(credential);
+
+        // Cambiar la contraseña
+        await user.updatePassword(_newPasswordController.text);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Contraseña cambiada exitosamente')),
+          );
+          Navigator.pop(context);
+        }
       }
     } on FirebaseAuthException catch (e) {
-      setState(() => error = e.message);
+      setState(() {
+        error = e.message ?? 'Error al cambiar la contraseña';
+      });
     } finally {
       setState(() => cargando = false);
     }
   }
 
-  //Construcción de la UI de la página de cambio de contraseña
+  //Construcción de la UI de la página de Cambio de contraseña
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,30 +204,52 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Campo contraseña actual
-                    TextField(
-                      controller: _currentPasswordController,
-                      obscureText: ocultarCurrentPassword,
-                      decoration: InputDecoration(
-                        labelText: "Contraseña actual",
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            ocultarCurrentPassword
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () => setState(
-                            () => ocultarCurrentPassword =
-                                !ocultarCurrentPassword,
-                          ),
+                    // Mostrar mensaje si es reset desde email
+                    if (esResetDesdeEmail)
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          border: Border.all(color: Colors.blue.shade300),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
+                        child: const Text(
+                          'Ingresa tu nueva contraseña para completar el reset',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 15),
+                    if (esResetDesdeEmail) const SizedBox(height: 20),
+
+                    // Campo contraseña actual (solo si NO es reset desde email)
+                    if (!esResetDesdeEmail)
+                      TextField(
+                        controller: _currentPasswordController,
+                        obscureText: ocultarCurrentPassword,
+                        decoration: InputDecoration(
+                          labelText: "Contraseña actual",
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              ocultarCurrentPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () => setState(
+                              () => ocultarCurrentPassword =
+                                  !ocultarCurrentPassword,
+                            ),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+
+                    if (!esResetDesdeEmail) const SizedBox(height: 15),
 
                     // Campo nueva contraseña
                     TextField(

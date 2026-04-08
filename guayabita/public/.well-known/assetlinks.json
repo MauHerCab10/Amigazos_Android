@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.guayabita",
+      "sha256_cert_fingerprints": [
+        "8E384C45DD32E27199778E3DC3E4CA2CC1D65D3542C485AF0FA714FFDB6288A"
+      ]
+    }
+  }
+]
