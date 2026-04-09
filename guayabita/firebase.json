@@ -32,7 +32,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/reset_password.html"
       }
     ]
   }

@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
       });
     } catch (e) {
       setState(() {
-        error = 'Credenciales de acceso inválidas';
+        error = 'Credenciales de acceso inválidas: $e';
       });
     } finally {
       setState(() {

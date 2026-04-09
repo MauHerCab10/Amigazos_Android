@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Guayabita - Reset Password</title>
+    <title>Amigazos - Reset Password</title>
 
     <script>
-        // Función para verificar si estamos en la app
+        // Función para verificar si estamos en la App
         function isInApp() {
             return window.navigator.userAgent.includes('wv') ||
                    window.navigator.userAgent.includes('Flutter') ||
@@ -24,13 +24,13 @@
             if (mode === 'resetPassword' && oobCode) {
                 // Estamos en un link de reset de contraseña
                 messageDiv.innerHTML = `
-                    <h2>Procesando reset de contraseña...</h2>
-                    <p>Redirigiendo a la app...</p>
+                    <h2>Procesando cambio de contraseña...</h2>
+                    <p>Redirigiendo a la App...</p>
                 `;
 
                 // Pequeño delay para asegurar que la redirección se vea
                 setTimeout(function() {
-                    // Intenta abrir la app con el código
+                    // Intenta abrir la App con el código
                     const deepLink = 'com.example.guayabita://resetPassword?oobCode=' + encodeURIComponent(oobCode);
                     window.location.href = deepLink;
 
@@ -38,10 +38,10 @@
                     setTimeout(function() {
                         messageDiv.innerHTML = `
                             <div style="padding: 20px; text-align: center;">
-                                <h2>¿No se abrió la app?</h2>
-                                <p>Si tienes la app instalada, intenta abrir el link nuevamente.</p>
+                                <h2>¿No se abrió la App?</h2>
+                                <p>Si tienes la App instalada, intenta abrir el link nuevamente.</p>
                                 <p style="font-size: 12px; color: #666;">
-                                    Si no funciona, copia este código en tu app:<br/>
+                                    Si no funciona, copia este código en tu App:<br/>
                                     <code style="background: #f0f0f0; padding: 10px; display: inline-block; margin-top: 10px;">
                                         ${oobCode}
                                     </code>
@@ -54,7 +54,7 @@
                 // Página normal o sin parámetros válidos
                 messageDiv.innerHTML = `
                     <div style="padding: 20px; text-align: center;">
-                        <h1>Guayabita</h1>
+                        <h1>Amigazos</h1>
                         <p>Aplicación de Mensajería</p>
                     </div>
                 `;

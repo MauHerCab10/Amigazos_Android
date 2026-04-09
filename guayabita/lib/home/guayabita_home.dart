@@ -305,8 +305,9 @@ class GuayabitaHomeState extends State<GuayabitaHome> {
                       key: const PageStorageKey<String>('lista_amigos'),
                       controller: _controllerScrollBar,
                       itemCount: docs.length,
-                      itemBuilder: (context, index) {
-                        var doc = docs[index];
+                      // ignore: non_constant_identifier_names
+                      itemBuilder: (context, reset_password) {
+                        var doc = docs[reset_password];
 
                         final fechaCumpleanos =
                             (doc['FechaCumpleanos'] as Timestamp).toDate();

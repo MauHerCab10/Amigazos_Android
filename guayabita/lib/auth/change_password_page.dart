@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'login_page.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   final String?
@@ -25,7 +26,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool tieneMayuscula(String p) => p.contains(RegExp(r'[A-Z]'));
   bool tieneMinuscula(String p) => p.contains(RegExp(r'[a-z]'));
   bool tieneNumero(String p) => p.contains(RegExp(r'[0-9]'));
-  bool tieneSimbolo(String p) => p.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+  bool tieneSimbolo(String p) =>
+      p.contains(RegExp(r'[-=!@#$%^&*(),._+/¿?":;{}|<>]'));
   bool tieneLongitud(String p) => p.length >= 12;
 
   // Detecta si la solicitud de cambio de contraseña proviene desde un correo
@@ -97,7 +99,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       error = null;
     });
     try {
-      // Si la solicitud de reset viene desde Email: usar el código de verificación
+      // Si la solicitud de reseteo de contraseña viene desde el Email: usar el código de verificación
       if (esResetDesdeEmail) {
         // Verificar que el código "oob" es válido
         try {
@@ -106,7 +108,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           throw FirebaseAuthException(
             code: 'invalid-reset-code',
             message:
-                'El enlace de reset ha expirado (1 hora). Por favor, solicita uno nuevo.',
+                'El enlace de reset ha expirado. Por favor, solicita uno nuevo.',
           );
         }
 
@@ -118,7 +120,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Contraseña cambiada exitosamente')),
+            const SnackBar(
+              content: Text('¡Contraseña actualizada exitosamente!'),
+            ),
           );
           Navigator.pop(context);
         }
@@ -144,7 +148,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Contraseña cambiada exitosamente')),
+            const SnackBar(
+              content: Text('¡Contraseña actualizada exitosamente!'),
+            ),
           );
           Navigator.pop(context);
         }
@@ -214,7 +220,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Text(
-                          'Ingresa tu nueva contraseña para completar el reset',
+                          'Ingresa una nueva contraseña para completar el proceso.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.blue,
@@ -321,7 +327,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       tieneNumero(_newPasswordController.text),
                     ),
                     _visualizacionCriterio(
-                      "Símbolo (!@#\$%^&*)",
+                      "Símbolo (!@#\$%^&*-=.+\"<>)",
                       tieneSimbolo(_newPasswordController.text),
                     ),
                     _visualizacionCriterio(

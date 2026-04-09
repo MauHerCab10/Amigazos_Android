@@ -19,7 +19,8 @@ class _RegisterPageState extends State<RegisterPage> {
   bool tieneMayuscula(String p) => p.contains(RegExp(r'[A-Z]'));
   bool tieneMinuscula(String p) => p.contains(RegExp(r'[a-z]'));
   bool tieneNumero(String p) => p.contains(RegExp(r'[0-9]'));
-  bool tieneSimbolo(String p) => p.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+  bool tieneSimbolo(String p) =>
+      p.contains(RegExp(r'[-=!@#$%^&*(),._+/¿?":;{}|<>]'));
   bool tieneLongitud(String p) => p.length >= 12;
 
   //Validación del formulario
@@ -191,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       tieneNumero(_passwordController.text),
                     ),
                     _visualizacionCriterio(
-                      "Símbolo (!@#\$%^&*)",
+                      "Símbolo (!@#\$%^&*-=.+\"<>)",
                       tieneSimbolo(_passwordController.text),
                     ),
                     _visualizacionCriterio(
