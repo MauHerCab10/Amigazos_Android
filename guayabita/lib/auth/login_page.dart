@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'forgot_password_page.dart';
 import 'register_page.dart';
+import '../home/guayabita_home.dart';
 
 //StatefulWidget, porque necesito manejar estados (errores, inputs, etc)
 class LoginPage extends StatefulWidget {
@@ -51,6 +52,14 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      if (mounted) {
+        //Redirige a la pantalla de 'Bienvenido' (GuayabitaHome)
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const GuayabitaHome()),
+          (route) => false,
+        );
+      }
     } on FirebaseAuthException catch (e) {
       setState(() {
         if (e.code == 'invalid-credential') {

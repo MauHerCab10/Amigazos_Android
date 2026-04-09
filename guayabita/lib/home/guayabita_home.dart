@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import '../auth/change_password_page.dart';
+import '../auth/login_page.dart';
 
 class GuayabitaHome extends StatefulWidget {
   const GuayabitaHome({super.key});
@@ -79,7 +80,7 @@ class GuayabitaHomeState extends State<GuayabitaHome> {
           //Menu
           actions: [
             PopupMenuButton<String>(
-              onSelected: (value) {
+              onSelected: (value) async {
                 if (value == 'change_password') {
                   Navigator.push(
                     context,
@@ -88,7 +89,17 @@ class GuayabitaHomeState extends State<GuayabitaHome> {
                     ),
                   );
                 } else if (value == 'logout') {
-                  FirebaseAuth.instance.signOut();
+                  await FirebaseAuth.instance.signOut();
+
+                  //Navega a la pantalla de 'Login' y elimina el historial de navegación para evitar que el usuario pueda regresar a la pantalla de 'Bienvenido' usando el botón de retroceso
+                  if (mounted) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                      (route) => false,
+                    );
+                  }
                 }
               },
               itemBuilder: (BuildContext context) => [

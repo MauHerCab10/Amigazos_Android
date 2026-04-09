@@ -74,7 +74,15 @@ class _RegisterPageState extends State<RegisterPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      if (mounted) Navigator.pop(context); //Regresa al Login tras éxito
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('¡Usuario registrado satisfactoriamente!'),
+          ),
+        );
+        //Redirige a la pantalla de 'Bienvenido' (GuayabitaHome)
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
       setState(() => error = e.message);
     } finally {

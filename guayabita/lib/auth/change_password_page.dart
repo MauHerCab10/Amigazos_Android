@@ -124,7 +124,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               content: Text('¡Contraseña actualizada exitosamente!'),
             ),
           );
-          Navigator.pop(context);
+          //Redirige a la pantalla de 'Login'
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (route) => false,
+          );
         }
       } else {
         // Flujo normal: cambiar contraseña estando autenticado
@@ -152,6 +156,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               content: Text('¡Contraseña actualizada exitosamente!'),
             ),
           );
+          // Regresar a la pantalla de 'Bienvenido' (GuayabitaHome)
           Navigator.pop(context);
         }
       }
