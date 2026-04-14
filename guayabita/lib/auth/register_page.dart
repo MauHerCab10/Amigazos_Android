@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'email_verification_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -70,18 +71,35 @@ class _RegisterPageState extends State<RegisterPage> {
       error = null;
     });
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+      final credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim(),
+          );
+
+      //Envía el correo de verificación al usuario recién registrado
+      await credential.user?.sendEmailVerification(
+        ActionCodeSettings(
+          url: 'https://guayabita-db.web.app/',
+          handleCodeInApp: true,
+          iOSBundleId: 'com.example.guayabita',
+          androidPackageName: 'com.example.guayabita',
+          androidInstallApp: true,
+        ),
       );
+
+      //Cierra la sesión para que el usuario no acceda sin verificar su correo
+      await FirebaseAuth.instance.signOut();
+
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('¡Usuario registrado satisfactoriamente!'),
+        //Navega a la pantalla de verificación de correo
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) =>
+                EmailVerificationPage(email: _emailController.text.trim()),
           ),
+          (route) => false,
         );
-        //Redirige a la pantalla de 'Bienvenido' (GuayabitaHome)
-        Navigator.pop(context);
       }
     } on FirebaseAuthException catch (e) {
       setState(() => error = e.message);

@@ -8,7 +8,7 @@ class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
   @override
-  //Construcción de la UI, según en la autenticación actual del usuario (pantalla de Login o de Bienvenida)
+  //Construcción de la UI, según la autenticación actual del usuario (pantalla de Login o de Bienvenida)
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance
@@ -22,7 +22,12 @@ class AuthWrapper extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          return const GuayabitaHome(); //Usuario logueado
+          final user = snapshot.data!;
+          //Si el usuario aún no ha verificado su correo, así ingrese correctamente sus credenciales, lo redirige al Login
+          if (!user.emailVerified) {
+            return const LoginPage();
+          }
+          return const GuayabitaHome(); //Usuario verificado y logueado
         }
 
         return const LoginPage(); //Usuario no logueado

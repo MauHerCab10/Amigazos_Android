@@ -6,7 +6,9 @@ import '../home/guayabita_home.dart';
 
 //StatefulWidget, porque necesito manejar estados (errores, inputs, etc)
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final String? successMessage;
+
+  const LoginPage({super.key, this.successMessage});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -38,6 +40,21 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController.addListener(() {
       setState(() {});
     });
+
+    //Muestra el mensaje de éxito si el correo fue validado correctamente después de Registrarse o después de Resetear la contraseña
+    if (widget.successMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(widget.successMessage!),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 4),
+            ),
+          );
+        }
+      });
+    }
   }
 
   Future<void> login() async {
@@ -48,10 +65,20 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       //Intenta iniciar sesión en Firebase con el email y contraseña ingresados
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      //Bloquea el acceso si el usuario no ha verificado su correo
+      if (credential.user != null && !credential.user!.emailVerified) {
+        await FirebaseAuth.instance.signOut();
+        setState(() {
+          error =
+              'Debes verificar tu correo electrónico antes de iniciar sesión.';
+        });
+        return;
+      }
 
       if (mounted) {
         //Redirige a la pantalla de 'Bienvenido' (GuayabitaHome)

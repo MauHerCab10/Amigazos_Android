@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'auth/auth_wrapper.dart';
+import 'auth/login_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app_links/app_links.dart';
 import 'auth/change_password_page.dart';
@@ -58,28 +60,37 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  // Manejo de Deep Links para reset de contraseña
+  // Manejo de Deep Links para reset de contraseña y verificación de correo
   void _handleDeepLink(Uri uri) {
     debugPrint('Deep link recibido: $uri');
     debugPrint('Scheme: ${uri.scheme}, Host: ${uri.host}, Path: ${uri.path}');
     debugPrint('Query parameters: ${uri.queryParameters}');
 
-    // Buscar parámetros del reset de contraseña
+    // Buscar parámetros del Reset de contraseña / Verificación de correo
     final oobCode = uri
         .queryParameters['oobCode']; //(Out-Of-Band Code) Código de verificación temporal seguro de un único uso usado para completar acciones críticas basadas en la identidad del usuario por Email
-    // final mode = uri.queryParameters['mode']; //Tipo de acción (en este caso, "resetPassword" para restablecer contraseña)
+    final mode = uri
+        .queryParameters['mode']; //Tipo de acción (resetPassword, verifyEmail)
 
     // Manejar Deep Links desde la página web personalizada (Custom URL Scheme)
     if (uri.scheme == 'com.example.guayabita') {
       final webOobCode = uri.queryParameters['oobCode'];
+      final webMode = uri.queryParameters['mode'];
 
       if (webOobCode != null && webOobCode.isNotEmpty) {
-        debugPrint('Reset desde web link con oobCode: $webOobCode');
-        navigatorKey.currentState?.push(
-          MaterialPageRoute(
-            builder: (context) => ChangePasswordPage(oobCode: webOobCode),
-          ),
-        );
+        if (webMode == 'verifyEmail') {
+          debugPrint(
+            'Verificación de correo desde web link con oobCode: $webOobCode',
+          );
+          _applyEmailVerification(webOobCode);
+        } else {
+          debugPrint('Reset desde web link con oobCode: $webOobCode');
+          navigatorKey.currentState?.push(
+            MaterialPageRoute(
+              builder: (context) => ChangePasswordPage(oobCode: webOobCode),
+            ),
+          );
+        }
         return;
       }
     }
@@ -88,11 +99,46 @@ class _MyAppState extends State<MyApp> {
     if ((uri.scheme == 'https' || uri.scheme == 'http') &&
         oobCode != null &&
         oobCode.isNotEmpty) {
-      debugPrint('Reset desde HTTPS link con oobCode: $oobCode');
-      navigatorKey.currentState?.push(
+      if (mode == 'verifyEmail') {
+        debugPrint(
+          'Verificación de correo desde HTTPS link con oobCode: $oobCode',
+        );
+        _applyEmailVerification(oobCode);
+      } else {
+        debugPrint('Reset desde HTTPS link con oobCode: $oobCode');
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(
+            builder: (context) => ChangePasswordPage(oobCode: oobCode),
+          ),
+        );
+      }
+    }
+  }
+
+  // Aplica la verificación de correo y redirige al Login con mensaje de éxito
+  Future<void> _applyEmailVerification(String oobCode) async {
+    try {
+      await FirebaseAuth.instance.applyActionCode(oobCode);
+      debugPrint('Correo verificado exitosamente');
+      navigatorKey.currentState?.pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => ChangePasswordPage(oobCode: oobCode),
+          builder: (context) => const LoginPage(
+            successMessage:
+                '¡Autenticación de cuenta validada satisfactoriamente!',
+          ),
         ),
+        (route) => false,
+      );
+    } catch (e) {
+      debugPrint('Error al verificar correo: $e');
+      navigatorKey.currentState?.pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(
+            successMessage:
+                'El enlace de verificación no es válido o ya fue usado.',
+          ),
+        ),
+        (route) => false,
       );
     }
   }
