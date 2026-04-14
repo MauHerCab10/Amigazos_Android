@@ -187,6 +187,7 @@ class GuayabitaHomeState extends State<GuayabitaHome> {
 
                       //Consulta la existencia del amigo a ser insertado en la BD
                       final consulta = await _amigos
+                          .where('UserID', isEqualTo: usuario!.uid)
                           .where('Nombre', isEqualTo: nombre)
                           .get();
 
@@ -550,6 +551,7 @@ class GuayabitaHomeState extends State<GuayabitaHome> {
 
                           //Consultamos en Firebase amigos con ese nombre ingresado
                           final consulta = await _amigos
+                              .where('UserID', isEqualTo: usuario!.uid)
                               .where('Nombre', isEqualTo: nuevoNombre)
                               .get();
 

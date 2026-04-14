@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /amigos/{docId} {
+      
+      //Al registrarse, el UserID del nuevo documento debe coincidir con el usuario autenticado
+      allow create:
+      	if request.auth != null && request.auth.uid == request.resource.data.UserID;
+        
+      //Solo el dueño del registro puede Leerlo, Editarlo o Eliminarlo
+      allow read, update, delete:
+      	if request.auth != null && request.auth.uid == resource.data.UserID;
+      
+    }
+  }
+}
