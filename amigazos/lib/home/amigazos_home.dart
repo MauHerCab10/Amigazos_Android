@@ -92,14 +92,12 @@ class AmigazosHomeState extends State<AmigazosHome> {
                   await FirebaseAuth.instance.signOut();
 
                   //Navega a la pantalla de 'Login' y elimina el historial de navegación para evitar que el usuario pueda regresar a la pantalla de 'Bienvenido' usando el botón de retroceso
-                  if (mounted) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                      (route) => false,
-                    );
-                  }
+                  if (!context.mounted) return;
+
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    (route) => false,
+                  );
                 }
               },
               itemBuilder: (BuildContext context) => [
