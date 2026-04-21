@@ -161,8 +161,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         }
       }
     } on FirebaseAuthException catch (e) {
+      String mensajeError;
+      if (e.code == 'wrong-password' || e.code == 'invalid-credential') {
+        mensajeError =
+            'La contraseña actual es diferente a la que acabas de ingresar.';
+      } else if (e.code == 'invalid-reset-code') {
+        mensajeError = e.message ?? 'El enlace de reset ha expirado.';
+      } else {
+        mensajeError = e.message ?? 'Error al cambiar la contraseña.';
+      }
       setState(() {
-        error = e.message ?? 'Error al cambiar la contraseña';
+        error = mensajeError;
       });
     } finally {
       setState(() => cargando = false);
@@ -378,7 +387,15 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
                     //Estilos para el mensaje de error
                     if (error != null)
-                      Text(error!, style: const TextStyle(color: Colors.red)),
+                      Text(
+                        error!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    const SizedBox(height: 10),
 
                     // Botón para cambiar la contraseña (deshabilitado si el formulario no es válido o si está cargando)
                     SizedBox(

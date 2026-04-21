@@ -102,7 +102,13 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       }
     } on FirebaseAuthException catch (e) {
-      setState(() => error = e.message);
+      String mensajeError;
+      if (e.code == 'email-already-in-use') {
+        mensajeError = 'Esta cuenta ya existe. Por favor use otra.';
+      } else {
+        mensajeError = e.message ?? 'Ocurrió un error durante el registro.';
+      }
+      setState(() => error = mensajeError);
     } finally {
       setState(() => cargando = false);
     }
@@ -266,7 +272,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     //Estilos para el mensaje de error
                     if (error != null)
-                      Text(error!, style: const TextStyle(color: Colors.red)),
+                      Text(
+                        error!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    const SizedBox(height: 10),
 
                     //Botón de "Registrarse" (deshabilitado si el formulario no es válido o si está cargando)
                     SizedBox(
