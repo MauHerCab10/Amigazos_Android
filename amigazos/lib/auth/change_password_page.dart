@@ -122,6 +122,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('¡Contraseña actualizada exitosamente!'),
+              backgroundColor: Colors.orange,
             ),
           );
           //Redirige a la pantalla de 'Login'
@@ -154,6 +155,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('¡Contraseña actualizada exitosamente!'),
+              backgroundColor: Colors.orange,
             ),
           );
           // Regresar a la pantalla de 'Bienvenido' (AmigazosHome)

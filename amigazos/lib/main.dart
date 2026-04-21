@@ -125,6 +125,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context) => const LoginPage(
             successMessage:
                 '¡Autenticación de cuenta validada satisfactoriamente!',
+            messageColor: Colors.green,
           ),
         ),
         (route) => false,
@@ -135,7 +136,8 @@ class _MyAppState extends State<MyApp> {
         MaterialPageRoute(
           builder: (context) => const LoginPage(
             successMessage:
-                'El enlace de verificación no es válido o ya fue usado.',
+                'El enlace de verificación es inválido o ya fue usado previamente.',
+            messageColor: Colors.red,
           ),
         ),
         (route) => false,

@@ -88,8 +88,8 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
 
-      //Cierra la sesión para que el usuario no acceda sin verificar su correo
-      await FirebaseAuth.instance.signOut();
+      //No se cierra la sesión para permitir reenvío del correo
+      //await FirebaseAuth.instance.signOut();
 
       if (mounted) {
         //Navega a la pantalla de verificación de correo

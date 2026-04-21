@@ -7,8 +7,9 @@ import '../home/amigazos_home.dart';
 //StatefulWidget, porque necesito manejar estados (errores, inputs, etc)
 class LoginPage extends StatefulWidget {
   final String? successMessage;
+  final Color? messageColor;
 
-  const LoginPage({super.key, this.successMessage});
+  const LoginPage({super.key, this.successMessage, this.messageColor});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(widget.successMessage!),
-              backgroundColor: Colors.green,
+              backgroundColor: widget.messageColor ?? Colors.green,
               duration: const Duration(seconds: 4),
             ),
           );
