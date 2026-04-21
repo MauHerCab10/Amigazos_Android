@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "831309978479",
+    "project_id": "amigazos-db",
+    "storage_bucket": "amigazos-db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831309978479:android:c0d1204864ba1d41b2269a",
+        "android_client_info": {
+          "package_name": "com.example.amigazos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831309978479-lgutv91rbp96esp4ip3okr99q8dmdf06.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0-ZHEnevtJ9YEpwPfqRJrnTz74ka2P94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831309978479-lgutv91rbp96esp4ip3okr99q8dmdf06.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

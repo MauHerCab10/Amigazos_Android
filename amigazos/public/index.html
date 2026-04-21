@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Amigazos - Reset Password</title>
+
+    <script>
+        // Función para verificar si estamos en la App
+        function isInApp() {
+            return window.navigator.userAgent.includes('wv') ||
+                   window.navigator.userAgent.includes('Flutter') ||
+                   window.navigator.userAgent.includes('Dart');
+        }
+
+        // Procesar la URL cuando se carga la página
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const oobCode = urlParams.get('oobCode');
+            const mode = urlParams.get('mode');
+
+            const messageDiv = document.getElementById('message');
+
+            if (mode === 'resetPassword' && oobCode) {
+                // Estamos en un link de reset de contraseña
+                messageDiv.innerHTML = `
+                    <h2>Procesando cambio de contraseña...</h2>
+                    <p>Redirigiendo a la App...</p>
+                `;
+
+                // Pequeño delay para asegurar que la redirección se vea
+                setTimeout(function() {
+                    // Intenta abrir la App con el código
+                    const deepLink = 'com.example.amigazos://resetPassword?oobCode=' + encodeURIComponent(oobCode);
+                    window.location.href = deepLink;
+
+                    // Si no se abre en 2 segundos, mostrar fallback
+                    setTimeout(function() {
+                        messageDiv.innerHTML = `
+                            <div style="padding: 20px; text-align: center;">
+                                <h2>¿No se abrió la App?</h2>
+                                <p>Si tienes la App instalada, intenta abrir el link nuevamente.</p>
+                                <p style="font-size: 12px; color: #666;">
+                                    Si no funciona, copia este código en tu App:<br/>
+                                    <code style="background: #f0f0f0; padding: 10px; display: inline-block; margin-top: 10px;">
+                                        ${oobCode}
+                                    </code>
+                                </p>
+                            </div>
+                        `;
+                    }, 2000);
+                }, 500);
+
+            } else if (mode === 'verifyEmail' && oobCode) {
+                //Estamos en un link de verificación de correo
+                messageDiv.innerHTML = `
+                    <h2>Verificando tu cuenta...</h2>
+                    <p>Redirigiendo a la App...</p>
+                `;
+
+                setTimeout(function() {
+                    //Intenta abrir la App con el código de verificación
+                    const deepLink = 'com.example.amigazos://verifyEmail?oobCode=' + encodeURIComponent(oobCode) + '&mode=verifyEmail';
+                    window.location.href = deepLink;
+
+                    //Si no se abre en 2 segundos, mostrar fallback
+                    setTimeout(function() {
+                        messageDiv.innerHTML = `
+                            <div style="padding: 20px; text-align: center;">
+                                <h2>¿No se abrió la App?</h2>
+                                <p>Si tienes la App instalada, intenta abrir el link nuevamente.</p>
+                                <p style="font-size: 12px; color: #666;">
+                                    Si no funciona, copia este código en tu App:<br/>
+                                    <code style="background: #f0f0f0; padding: 10px; display: inline-block; margin-top: 10px;">
+                                        ${oobCode}
+                                    </code>
+                                </p>
+                            </div>
+                        `;
+                    }, 2000);
+                }, 500);
+
+            } else {
+                // Página normal o sin parámetros válidos
+                messageDiv.innerHTML = `
+                    <div style="padding: 20px; text-align: center;">
+                        <h1>Amigazos</h1>
+                        <p>Aplicación de Mensajería</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #545ABE 0%, #D2FEFF 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #message {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+        h2 {
+            color: #545ABE;
+            margin-top: 0;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        code {
+            font-family: monospace;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="message">
+        <h2>Cargando...</h2>
+    </div>
+</body>
+</html>
