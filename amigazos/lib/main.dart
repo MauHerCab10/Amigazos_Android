@@ -9,6 +9,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app_links/app_links.dart';
 import 'auth/change_password_page.dart';
 import 'dart:async';
+import 'services/firebase_messaging_service.dart';
 
 void main() async {
   // 1. Aseguro que los widgets estén vinculados antes de iniciar Firebase
@@ -20,7 +21,10 @@ void main() async {
   // 3. Inicializo Firebase con las opciones del proyecto
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // 4. Ejecución de la App
+  // 4. Inicializar Firebase Messaging para notificaciones push
+  await FirebaseMessagingService().initialize();
+
+  // 5. Ejecución de la App
   runApp(const MyApp());
 }
 

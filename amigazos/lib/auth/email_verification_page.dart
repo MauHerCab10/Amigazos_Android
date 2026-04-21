@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login_page.dart';
+//import '../services/firebase_messaging_service.dart';
 
 class EmailVerificationPage extends StatefulWidget {
   final String email;
@@ -256,6 +257,14 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                                     androidInstallApp: true,
                                   ),
                                 );
+
+                                // //Mostrar notificación push local
+                                // await FirebaseMessagingService()
+                                //     .showLocalNotification(
+                                //       title: '💫 Correo Reenviado',
+                                //       body:
+                                //           'Correo de verificación reenviado. Revisa tu bandeja de entrada.',
+                                //     );
 
                                 // Reiniciar el cooldown después de enviar exitosamente
                                 _startCooldown();
