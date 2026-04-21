@@ -111,7 +111,7 @@ class FirebaseMessagingService {
       debugPrint('====================================');
       debugPrint('Guarda este token para enviar notificaciones de prueba');
 
-      // TODO: Aquí puedes guardar el token en Firestore asociado al usuario
+      // TO-DO: Aquí puedes guardar el token en Firestore asociado al usuario
       // await FirebaseFirestore.instance
       //     .collection('users')
       //     .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -199,7 +199,7 @@ class FirebaseMessagingService {
     debugPrint('Usuario tocó la notificación');
     debugPrint('Datos de la notificación: ${message.data}');
 
-    // TODO: Aquí puedes navegar a una pantalla específica según los datos del mensaje
+    // TO-DO: Aquí puedes navegar a una pantalla específica según los datos del mensaje
     // Por ejemplo:
     // if (message.data['type'] == 'chat') {
     //   navigatorKey.currentState?.push(
@@ -211,7 +211,7 @@ class FirebaseMessagingService {
   // Callback cuando se toca una notificación local
   void _onNotificationTapped(NotificationResponse response) {
     debugPrint('Notificación local tocada: ${response.payload}');
-    // TODO: Manejar navegación desde notificación local
+    // TO-DO: Manejar navegación desde notificación local
   }
 
   // Método para obtener el token actual (útil para guardarlo en la base de datos)
