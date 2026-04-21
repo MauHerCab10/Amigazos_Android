@@ -44,14 +44,14 @@ firebase deploy --only hosting
 
 ### 3. Verificar que los archivos estén accesibles:
 
-- Android: `https://guayabita-db.web.app/.well-known/assetlinks.json`
-- iOS: `https://guayabita-db.web.app/.well-known/apple-app-site-association`
+- Android: `https://amigazos-db.web.app/.well-known/assetlinks.json`
+- iOS: `https://amigazos-db.web.app/.well-known/apple-app-site-association`
 
 ### 4. Actualizar Firebase Auth Email Template
 
 En Firebase Console:
 1. **Authentication** → **Templates** → **Password reset**
-2. Cambia la URL por: `https://guayabita-db.web.app/`  ///https://guayabita-db.web.app/reset-password
+2. Cambia la URL por: `https://amigazos-db.web.app/`  ///https://amigazos-db.web.app/reset-password
 3. Guarda
 
 ## ⚠️ Notas importantes:
