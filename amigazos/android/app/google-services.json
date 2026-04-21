@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "831309978479-kmk6uqokqvkkp6qvoaabdvvvpuds0i4t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.amigazos",
+            "certificate_hash": "097b6e65911aef4c57fc7fce65c79df47f6cc593"
+          }
+        },
+        {
           "client_id": "831309978479-lgutv91rbp96esp4ip3okr99q8dmdf06.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "831309978479-lgutv91rbp96esp4ip3okr99q8dmdf06.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "831309978479-66531r40scuuq2sfm6082m5dd69uvkg4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.amigazos"
+              }
             }
           ]
         }

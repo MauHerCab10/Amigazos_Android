@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'forgot_password_page.dart';
 import 'register_page.dart';
 import '../home/amigazos_home.dart';
@@ -65,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
+      //Autenticación TRADICIONAL (Email y Contraseña)
       //Intenta iniciar sesión en Firebase con el email y contraseña ingresados
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
@@ -142,6 +144,68 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  //Autenticación con GOOGLE Sign-In (OAuth)
+  // Método para crear usuario e iniciar sesión con el servicio de Google
+  Future<void> loginConGoogle() async {
+    setState(() {
+      cargando = true;
+      error = null;
+    });
+
+    try {
+      // Cerrar sesión de Google primero para forzar la selección de cuenta
+      await GoogleSignIn().signOut();
+
+      // Inicia el proceso de autenticación de Google
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Si el usuario cancela el login, no hacer nada
+      if (googleUser == null) {
+        setState(() {
+          cargando = false;
+        });
+        return;
+      }
+
+      // Obtiene los detalles de autenticación de Google
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      // Crea las credenciales para Firebase
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Inicia sesión en Firebase con las credenciales de Google
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Redirige a la pantalla de inicio
+      if (mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const AmigazosHome()),
+          (route) => false,
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        if (e.code == 'account-exists-with-different-credential') {
+          error = 'Ya existe una cuenta con este correo usando otro método';
+        } else {
+          error = 'Error al iniciar sesión con Google: ${e.message ?? e.code}';
+        }
+      });
+    } catch (e) {
+      setState(() {
+        error = 'Error al iniciar sesión con Google: $e';
+      });
+    } finally {
+      setState(() {
+        cargando = false;
+      });
+    }
+  }
+
   @override
   //Construcción de la UI de Login
   Widget build(BuildContext context) {
@@ -174,15 +238,16 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    //Ícono de candado para representar la seguridad y autenticación de la pantalla de Login/Register
+                    //Ícono de candado para representar la seguridad y autenticación de la pantalla de Login/Register para con los usuarios
                     const Icon(
-                      Icons.lock_outline,
+                      Icons.lock_person, //supervised_user_circle_rounded
                       size: 70,
                       color: Color(0xFF2575FC),
                     ),
 
                     const SizedBox(height: 15),
 
+                    //Título principal de la pantalla de Login/Register
                     const Text(
                       "Amigazos",
                       style: TextStyle(
@@ -193,12 +258,64 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: 5),
 
+                    //Subtítulo de la pantalla de Login/Register
                     const Text(
                       "Inicia sesión para continuar",
                       style: TextStyle(fontSize: 15, color: Colors.grey),
                     ),
 
                     const SizedBox(height: 30),
+
+                    // Botón de Google Sign-In
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: OutlinedButton.icon(
+                        onPressed: cargando ? null : loginConGoogle,
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: Colors.grey[300]!, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        icon: Image.asset('assets/google_logo.png', height: 24),
+                        label: const Text(
+                          "Continuar con Google",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Separador "O"
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Divider(thickness: 1, color: Colors.grey[400]),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            "O",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(thickness: 1, color: Colors.grey[400]),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
 
                     //Campo de "Email"
                     TextField(
@@ -292,7 +409,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 16),
 
                     //Enlace de registro, que al hacer click llama a la función register() para crear un nuevo usuario en Firebase
                     TextButton(
