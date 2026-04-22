@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import '../auth/change_password_page.dart';
 import '../auth/login_page.dart';
+import '../services/firebase_messaging_service.dart';
 
 class AmigazosHome extends StatefulWidget {
   const AmigazosHome({super.key});
@@ -32,11 +33,15 @@ class AmigazosHomeState extends State<AmigazosHome> {
   //usuario que entra a la App
   final usuario = FirebaseAuth.instance.currentUser;
 
-  // @override
-  // //'initState' es la preparación para la renderización de la pantalla tras bambalinas antes q todo
-  // void initState() {
-  //   super.initState();
-  // }
+  @override
+  //'initState' es la preparación para la renderización de la pantalla tras bambalinas antes q todo
+  void initState() {
+    super.initState();
+    // Verificamos si hay cumpleaños hoy al abrir la app
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkBirthdaysToday();
+    });
+  }
 
   @override
   //'build()' es el "Arquitecto" de la pantalla, función encargada de dibujar (renderizar) la UI
@@ -775,6 +780,44 @@ class AmigazosHomeState extends State<AmigazosHome> {
       RegExp(r'\/\w'),
       (match) => match.group(0)!.toUpperCase(),
     );
+  }
+
+  // Función para verificar si hay cumpleaños hoy y mostrar una notificación
+  Future<void> _checkBirthdaysToday() async {
+    if (usuario == null) return;
+
+    try {
+      final querySnapshot =
+          await _amigos.where('UserID', isEqualTo: usuario!.uid).get();
+
+      List<String> cumpleaneros = [];
+
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        if (data.containsKey('FechaCumpleanos') &&
+            data['FechaCumpleanos'] != null) {
+          final fechaCumple = (data['FechaCumpleanos'] as Timestamp).toDate();
+          if (diasParaCumpleanos(fechaCumple) == 0) {
+            cumpleaneros.add(data['Nombre'] ?? 'Alguien');
+          }
+        }
+      }
+
+      if (cumpleaneros.isNotEmpty) {
+        String nombres = cumpleaneros.join(', ');
+        String mensaje =
+            cumpleaneros.length == 1
+                ? 'Hoy es el cumpleaños de $nombres! 🎉'
+                : 'Hoy es el cumpleaños de: $nombres! 🎉';
+
+        await FirebaseMessagingService().showLocalNotification(
+          title: '¡Cumpleaños hoy!',
+          body: mensaje,
+        );
+      }
+    } catch (e) {
+      debugPrint('Error al verificar cumpleaños: $e');
+    }
   }
 
   //Libera los controladores para evitar fugas de memoria y mantener la estabilidad de la App
