@@ -30,10 +30,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.example.amigazos</string>
+			<string>com.mhc.amigazos.ios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.example.amigazos</string>
+				<string>com.mhc.amigazos.ios</string>
 				<string>https</string>
 			</array>
 		</dict>

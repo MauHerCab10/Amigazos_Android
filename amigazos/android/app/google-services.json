@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:831309978479:android:c0d1204864ba1d41b2269a",
+        "mobilesdk_app_id": "1:831309978479:android:2801c58bee626122b2269a",
         "android_client_info": {
-          "package_name": "com.example.amigazos"
+          "package_name": "com.mhc.amigazos.android"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "831309978479-kmk6uqokqvkkp6qvoaabdvvvpuds0i4t.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.amigazos",
-            "certificate_hash": "097b6e65911aef4c57fc7fce65c79df47f6cc593"
-          }
-        },
         {
           "client_id": "831309978479-lgutv91rbp96esp4ip3okr99q8dmdf06.apps.googleusercontent.com",
           "client_type": 3

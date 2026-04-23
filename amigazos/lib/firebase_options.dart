@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyA0-ZHEnevtJ9YEpwPfqRJrnTz74ka2P94',
-    appId: '1:831309978479:android:c0d1204864ba1d41b2269a',
+    appId: '1:831309978479:android:2801c58bee626122b2269a',
     messagingSenderId: '831309978479',
     projectId: 'amigazos-db',
     storageBucket: 'amigazos-db.firebasestorage.app',
@@ -60,12 +60,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDDZkPKBXxwaMCV0Da7cPeXBVdT9qiOTow',
-    appId: '1:831309978479:ios:35d277ac4ec9155ab2269a',
+    appId: '1:831309978479:ios:8e99a949fa99f16bb2269a',
     messagingSenderId: '831309978479',
     projectId: 'amigazos-db',
     storageBucket: 'amigazos-db.firebasestorage.app',
-    iosClientId: '831309978479-66531r40scuuq2sfm6082m5dd69uvkg4.apps.googleusercontent.com',
-    iosBundleId: 'com.example.amigazos',
+    androidClientId: '831309978479-kmk6uqokqvkkp6qvoaabdvvvpuds0i4t.apps.googleusercontent.com',
+    iosClientId: '831309978479-jeclpma2vel4vv53h295opuqm3ras23h.apps.googleusercontent.com',
+    iosBundleId: 'com.mhc.amigazos.ios',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -74,7 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '831309978479',
     projectId: 'amigazos-db',
     storageBucket: 'amigazos-db.firebasestorage.app',
-    iosClientId: '831309978479-66531r40scuuq2sfm6082m5dd69uvkg4.apps.googleusercontent.com',
+    iosClientId:
+        '831309978479-66531r40scuuq2sfm6082m5dd69uvkg4.apps.googleusercontent.com',
     iosBundleId: 'com.example.amigazos',
   );
 
