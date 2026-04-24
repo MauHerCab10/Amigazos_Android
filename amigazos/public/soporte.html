@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Soporte - Amigazos</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --accent: #06b6d4;
+      --bg: #f0f4ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --green: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      padding: 48px 20px 36px;
+      text-align: center;
+    }
+    header .logo { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; }
+    header .logo span { color: #bae6fd; }
+    header p { margin-top: 8px; font-size: 1rem; opacity: .85; }
+
+    .wrap { max-width: 860px; margin: -28px auto 48px; padding: 0 20px; }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(79,70,229,.1);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .card-header {
+      background: linear-gradient(90deg, var(--green) 0%, var(--accent) 100%);
+      color: #fff;
+      padding: 24px 32px;
+    }
+    .card-header h1 { font-size: 1.4rem; font-weight: 700; }
+    .card-header p { font-size: .9rem; opacity: .85; margin-top: 4px; }
+    .card-body { padding: 32px; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(135deg, #f0fdf4, #ecfeff);
+      border: 1px solid #d1fae5;
+      border-radius: 12px;
+      padding: 18px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow .2s;
+    }
+    .contact-item:hover { box-shadow: 0 4px 16px rgba(16,185,129,.15); }
+    .contact-item .ci-icon {
+      font-size: 1.8rem;
+      width: 48px; height: 48px;
+      background: #fff;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .contact-item .ci-label { font-size: .8rem; color: var(--muted); margin-bottom: 2px; }
+    .contact-item .ci-value { font-weight: 600; color: var(--primary); font-size: .97rem; }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-list { list-style: none; padding: 0; }
+    .info-list li {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: .95rem;
+      line-height: 1.5;
+    }
+    .info-list li:last-child { border-bottom: none; }
+    .info-list .tag {
+      background: #ede9fe;
+      color: var(--primary-dark);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: .75rem;
+      font-weight: 600;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 2px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .faq-item summary {
+      padding: 14px 18px;
+      font-weight: 600;
+      font-size: .95rem;
+      cursor: pointer;
+      background: #fafafa;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; font-size: 1.2rem; color: var(--primary); }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item p { padding: 14px 18px; font-size: .93rem; line-height: 1.6; color: var(--muted); background: #fff; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .card-body { padding: 20px; }
+      header .logo { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Amig<span>azos</span></div>
+    <p>Conecta. Comparte. Disfruta.</p>
+  </header>
+
+  <div class="wrap">
+
+    <!-- Contacto -->
+    <div class="card">
+      <div class="card-header">
+        <h1>Centro de Soporte</h1>
+        <p>Estamos aqui para ayudarte con cualquier duda o problema</p>
+      </div>
+      <div class="card-body">
+        <div class="section-title">Canales de contacto</div>
+        <div class="contact-grid">
+          <a class="contact-item" href="mailto:mauriciohernandez9487@gmail.com">
+            <div class="ci-icon">&#9993;</div>
+            <div>
+              <div class="ci-label">Correo electronico</div>
+              <div class="ci-value">mauriciohernandez9487@gmail.com</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="section-title">Para agilizar tu solicitud, incluye</div>
+        <ul class="info-list">
+          <li><span class="tag">Dispositivo</span> Modelo de tu telefono o tablet</li>
+          <li><span class="tag">Sistema</span> Version de Android que usas</li>
+          <li><span class="tag">Problema</span> Descripcion clara y pasos para reproducirlo</li>
+          <li><span class="tag">Version app</span> Numero de version de Amigazos instalada</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="card">
+      <div class="card-body">
+        <div class="section-title">Preguntas frecuentes</div>
+
+        <details class="faq-item">
+          <summary>No puedo iniciar sesion en la app</summary>
+          <p>Verifica que tu correo y contrasena sean correctos. Si olvidaste tu contrasena, usa la opcion de recuperacion en la pantalla de inicio. Si el problema persiste, escribenos al correo de soporte.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>No recibo notificaciones push</summary>
+          <p>Asegurate de haber concedido permiso de notificaciones a Amigazos en los ajustes de tu dispositivo. Tambien verifica que la app no este en modo de ahorro de bateria que bloquea notificaciones.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Como elimino mi cuenta</summary>
+          <p>Para solicitar la eliminacion de tu cuenta y datos, envía un correo a nuestra direccion de soporte indicando el correo registrado. Procesaremos tu solicitud en un plazo de 7 dias habiles.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>La app se cierra inesperadamente</summary>
+          <p>Intenta cerrar y volver a abrir la app. Si el problema continua, desinstala y vuelve a instalar desde Google Play Store. Si sigue fallando, contactanos con el modelo de tu dispositivo y version de Android.</p>
+        </details>
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Amigazos &mdash; <a href="/politica-privacidad.html">Politica de Privacidad</a>
+  </footer>
+
+</body>
+</html>

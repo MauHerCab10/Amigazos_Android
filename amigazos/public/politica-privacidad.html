@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Politica de Privacidad - Amigazos</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --accent: #06b6d4;
+      --bg: #f0f4ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      padding: 48px 20px 36px;
+      text-align: center;
+    }
+    header .logo { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; }
+    header .logo span { color: #bae6fd; }
+    header p { margin-top: 8px; font-size: 1rem; opacity: .85; }
+
+    .wrap { max-width: 860px; margin: -28px auto 48px; padding: 0 20px; }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(79,70,229,.1);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: linear-gradient(90deg, var(--primary) 0%, #7c3aed 100%);
+      color: #fff;
+      padding: 24px 32px;
+    }
+    .card-header h1 { font-size: 1.4rem; font-weight: 700; }
+    .card-header small { opacity: .75; font-size: .85rem; }
+
+    .card-body { padding: 32px; }
+
+    .intro {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      color: var(--primary-dark);
+      font-size: .97rem;
+      line-height: 1.6;
+    }
+
+    .section { margin-bottom: 28px; }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title .num {
+      background: var(--primary);
+      color: #fff;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem;
+      flex-shrink: 0;
+    }
+
+    p, li { line-height: 1.7; color: var(--text); font-size: .97rem; }
+    ul { padding-left: 0; list-style: none; }
+    ul li {
+      padding: 6px 0 6px 28px;
+      position: relative;
+    }
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 6px; top: 14px;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .contact-box {
+      background: linear-gradient(135deg, #ede9fe, #e0f2fe);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .contact-box .icon { font-size: 2rem; }
+    .contact-box a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .contact-box a:hover { text-decoration: underline; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    @media (max-width: 600px) {
+      .card-body { padding: 20px; }
+      header .logo { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Amig<span>azos</span></div>
+    <p>Conecta. Comparte. Disfruta.</p>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="card-header">
+        <h1>Politica de Privacidad</h1>
+        <small>Ultima actualizacion: 24 de abril de 2026</small>
+      </div>
+      <div class="card-body">
+
+        <div class="intro">
+          En Amigazos respetamos tu privacidad. Esta politica explica que datos recopilamos, para que los usamos y como los protegemos. Al usar la aplicacion, aceptas las practicas descritas aqui.
+        </div>
+
+        <div class="section">
+          <div class="section-title"><div class="num">1</div> Informacion que recopilamos</div>
+          <ul>
+            <li>Datos de registro y autenticacion (correo electronico, nombre de perfil).</li>
+            <li>Informacion tecnica del dispositivo y uso de la app para mejorar estabilidad.</li>
+            <li>Token de notificaciones push para enviar avisos dentro de la app.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title"><div class="num">2</div> Uso de la informacion</div>
+          <ul>
+            <li>Permitir inicio de sesion y funcionamiento correcto de la app.</li>
+            <li>Enviar notificaciones relacionadas con funcionalidades de Amigazos.</li>
+            <li>Prevenir fraude, abusos y problemas de seguridad.</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="section-title"><div class="num">3</div> Servicios de terceros</div>
+          <p>La app utiliza servicios de Firebase (Google) para autenticacion, base de datos y notificaciones. Estos servicios pueden procesar datos conforme a sus propias politicas de privacidad.</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title"><div class="num">4</div> Conservacion y seguridad</div>
+          <p>Aplicamos medidas razonables de seguridad para proteger tu informacion. Conservamos los datos solo el tiempo necesario para prestar el servicio o cumplir obligaciones legales.</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title"><div class="num">5</div> Derechos del usuario</div>
+          <p>Puedes solicitar actualizacion o eliminacion de tu cuenta y datos contactandonos por los canales de soporte indicados al final de esta pagina.</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title"><div class="num">6</div> Contacto</div>
+          <div class="contact-box">
+            <div class="icon">&#9993;</div>
+            <div>
+              <div style="font-size:.85rem;color:var(--muted);margin-bottom:2px;">¿Preguntas sobre esta politica?</div>
+              <a href="mailto:mauriciohernandez9487@gmail.com">mauriciohernandez9487@gmail.com</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>&copy; 2026 Amigazos &mdash; Todos los derechos reservados</footer>
+
+</body>
+</html>
