@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eliminar Cuenta y Datos - Amigazos</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --danger-border: #fecaca;
+      --accent: #06b6d4;
+      --bg: #f0f4ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      color: #fff;
+      padding: 48px 20px 36px;
+      text-align: center;
+    }
+    header .logo { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; }
+    header .logo span { color: #bae6fd; }
+    header p { margin-top: 8px; font-size: 1rem; opacity: .85; }
+
+    .wrap { max-width: 680px; margin: -28px auto 48px; padding: 0 20px; }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(79,70,229,.1);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .card-header-danger {
+      background: linear-gradient(90deg, var(--danger) 0%, #f97316 100%);
+      color: #fff;
+      padding: 24px 32px;
+    }
+    .card-header-danger h1 { font-size: 1.4rem; font-weight: 700; }
+    .card-header-danger p { font-size: .9rem; opacity: .85; margin-top: 4px; }
+
+    .card-body { padding: 32px; }
+
+    .warning-box {
+      background: var(--danger-light);
+      border: 1px solid var(--danger-border);
+      border-left: 4px solid var(--danger);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: .93rem;
+      line-height: 1.6;
+      color: #991b1b;
+    }
+
+    .steps { counter-reset: step; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      background: var(--danger);
+      color: #fff;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content { flex: 1; }
+    .step-content strong { display: block; margin-bottom: 4px; font-size: .97rem; }
+    .step-content p { font-size: .9rem; color: var(--muted); line-height: 1.5; }
+
+    .email-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--danger);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 8px;
+      transition: background .2s;
+    }
+    .email-btn:hover { background: #dc2626; }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    .data-table th {
+      background: #f8fafc;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border);
+      color: var(--muted);
+      font-size: .82rem;
+      text-transform: uppercase;
+    }
+    .data-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .badge-gray { background: #f1f5f9; color: var(--muted); }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .card-body { padding: 20px; }
+      header .logo { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Amig<span>azos</span></div>
+    <p>Conecta. Comparte. Disfruta.</p>
+  </header>
+
+  <div class="wrap">
+
+    <!-- Solicitud de eliminacion -->
+    <div class="card">
+      <div class="card-header-danger">
+        <h1>Eliminar cuenta y datos</h1>
+        <p>Puedes solicitar la eliminacion completa de tu cuenta en cualquier momento</p>
+      </div>
+      <div class="card-body">
+
+        <div class="warning-box">
+          <strong>&#9888; Esta accion es irreversible.</strong><br>
+          Al eliminar tu cuenta se borran permanentemente tu perfil, datos personales e historial dentro de Amigazos. No podras recuperarlos una vez procesada la solicitud.
+        </div>
+
+        <div class="section-title">Como solicitar la eliminacion</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <strong>Envia un correo a nuestro equipo</strong>
+              <p>Usa el boton de abajo o escribe directamente a nuestra direccion de soporte.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <strong>Indica en el asunto: "Eliminacion de cuenta"</strong>
+              <p>Incluye el correo electronico asociado a tu cuenta de Amigazos.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <strong>Espera la confirmacion</strong>
+              <p>Procesaremos tu solicitud en un plazo maximo de 7 dias habiles y te enviaremos confirmacion por correo.</p>
+            </div>
+          </div>
+        </div>
+
+        <a class="email-btn" href="mailto:mauriciohernandez9487@gmail.com?subject=Eliminacion%20de%20cuenta%20Amigazos&body=Hola%2C%20solicito%20la%20eliminacion%20de%20mi%20cuenta%20y%20datos.%0A%0ACorreo%20registrado%3A%20">
+          &#9993; Solicitar eliminacion por correo
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Datos que se eliminan -->
+    <div class="card">
+      <div class="card-body">
+        <div class="section-title">Datos que se eliminan</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Dato</th>
+              <th>Descripcion</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Perfil</strong></td>
+              <td>Nombre, foto y datos de perfil</td>
+              <td><span class="badge badge-red">Eliminado</span></td>
+            </tr>
+            <tr>
+              <td><strong>Autenticacion</strong></td>
+              <td>Credenciales de acceso (correo/contrasena)</td>
+              <td><span class="badge badge-red">Eliminado</span></td>
+            </tr>
+            <tr>
+              <td><strong>Notificaciones</strong></td>
+              <td>Token de notificaciones push</td>
+              <td><span class="badge badge-red">Eliminado</span></td>
+            </tr>
+            <tr>
+              <td><strong>Datos de uso</strong></td>
+              <td>Registros anonimos de estabilidad (no vinculados a tu identidad)</td>
+              <td><span class="badge badge-gray">Anonimizados</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Amigazos &mdash;
+    <a href="/politica-privacidad.html">Politica de Privacidad</a> &mdash;
+    <a href="/soporte.html">Soporte</a>
+  </footer>
+
+</body>
+</html>
