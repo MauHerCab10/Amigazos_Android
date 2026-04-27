@@ -3,9 +3,9 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.example.amigazos",
+      "package_name": "com.mhc.amigazos.android",
       "sha256_cert_fingerprints": [
-        "8E384C45DD32E27199778E3DC3E4CA2CC1D65D3542C485AF0FA714FFDB6288A"
+        "2B:60:C0:26:F3:E1:D8:B7:D8:90:7B:1C:0E:4E:E0:E0:2F:D3:D7:5F:62:78:74:C2:3E:FB:C4:58:FF:72:C2:83"
       ]
     }
   }

@@ -23,7 +23,7 @@ Edita el archivo `public/.well-known/apple-app-site-association`:
     "apps": [],
     "details": [
       {
-        "appID": "TU_TEAM_ID_AQUI.com.example.amigazos",
+        "appID": "TU_TEAM_ID_AQUI.com.mhc.amigazos.android",
         "paths": ["/reset-password*"]
       }
     ]

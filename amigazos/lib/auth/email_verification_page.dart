@@ -252,8 +252,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                                   ActionCodeSettings(
                                     url: 'https://amigazos-db.web.app/',
                                     handleCodeInApp: true,
-                                    iOSBundleId: 'com.example.amigazos',
-                                    androidPackageName: 'com.example.amigazos',
+                                    iOSBundleId: 'com.mhc.amigazos.ios',
+                                    androidPackageName:
+                                        'com.mhc.amigazos.android',
                                     androidInstallApp: true,
                                   ),
                                 );

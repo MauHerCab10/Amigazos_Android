@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         .queryParameters['mode']; //Tipo de acción (resetPassword, verifyEmail)
 
     // Manejar Deep Links desde la página web personalizada (Custom URL Scheme)
-    if (uri.scheme == 'com.example.amigazos') {
+    if (uri.scheme == 'com.mhc.amigazos.android') {
       final webOobCode = uri.queryParameters['oobCode'];
       final webMode = uri.queryParameters['mode'];
 

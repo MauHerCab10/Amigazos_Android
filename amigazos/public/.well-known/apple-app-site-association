@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "TEAM_ID.com.example.amigazos",
+        "appID": "TEAM_ID.com.mhc.amigazos.ios",
         "paths": ["/*"]
       }
     ]

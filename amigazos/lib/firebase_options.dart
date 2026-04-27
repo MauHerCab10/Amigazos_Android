@@ -64,8 +64,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '831309978479',
     projectId: 'amigazos-db',
     storageBucket: 'amigazos-db.firebasestorage.app',
-    androidClientId: '831309978479-kmk6uqokqvkkp6qvoaabdvvvpuds0i4t.apps.googleusercontent.com',
-    iosClientId: '831309978479-jeclpma2vel4vv53h295opuqm3ras23h.apps.googleusercontent.com',
+    androidClientId:
+        '831309978479-kmk6uqokqvkkp6qvoaabdvvvpuds0i4t.apps.googleusercontent.com',
+    iosClientId:
+        '831309978479-jeclpma2vel4vv53h295opuqm3ras23h.apps.googleusercontent.com',
     iosBundleId: 'com.mhc.amigazos.ios',
   );
 
@@ -77,7 +79,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'amigazos-db.firebasestorage.app',
     iosClientId:
         '831309978479-66531r40scuuq2sfm6082m5dd69uvkg4.apps.googleusercontent.com',
-    iosBundleId: 'com.example.amigazos',
+    iosBundleId: 'com.mhc.amigazos.ios',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
@@ -89,5 +91,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'amigazos-db.firebasestorage.app',
     measurementId: 'G-V5ESNDYZYQ',
   );
-
 }

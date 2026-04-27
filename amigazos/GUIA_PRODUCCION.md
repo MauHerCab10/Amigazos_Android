@@ -17,7 +17,7 @@ Esta guía detalla todos los pasos necesarios para publicar la aplicación Amiga
 
 ## 1️⃣ Cambiar Application ID
 
-**⚠️ IMPORTANTE:** Actualmente tu app usa `com.example.amigazos`, que es un ID de ejemplo y debe cambiarse.
+**⚠️ IMPORTANTE:** Actualmente tu app usa el ID `com.mhc.amigazos.android`
 
 ### Paso 1.1: Elegir un Application ID único
 Formato recomendado: `com.tuempresa.amigazos` o `com.tunombre.amigazos`
@@ -363,7 +363,7 @@ Para publicar actualizaciones:
 
 ## ✅ Checklist Final Antes de Publicar
 
-- [ ] Application ID cambiado de `com.example.amigazos`
+- [ ] Application ID cambiado de `com.mhc.amigazos.android`
 - [ ] Keystore creado y guardado de forma segura
 - [ ] key.properties configurado correctamente
 - [ ] Configuración de firma en build.gradle.kts actualizada

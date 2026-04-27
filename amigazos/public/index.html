@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Amigazos - Reset Password</title>
+    <title>Amigazos</title>
 
     <script>
         // Función para verificar si estamos en la App
@@ -23,6 +23,7 @@
 
             if (mode === 'resetPassword' && oobCode) {
                 // Estamos en un link de reset de contraseña
+                document.title = 'Amigazos - Cambio de contraseña';
                 messageDiv.innerHTML = `
                     <h2>Procesando cambio de contraseña...</h2>
                     <p>Redirigiendo a la App...</p>
@@ -31,7 +32,7 @@
                 // Pequeño delay para asegurar que la redirección se vea
                 setTimeout(function() {
                     // Intenta abrir la App con el código
-                    const deepLink = 'com.example.amigazos://resetPassword?oobCode=' + encodeURIComponent(oobCode);
+                    const deepLink = 'com.mhc.amigazos.android://resetPassword?oobCode=' + encodeURIComponent(oobCode);
                     window.location.href = deepLink;
 
                     // Si no se abre en 2 segundos, mostrar fallback
@@ -53,6 +54,7 @@
 
             } else if (mode === 'verifyEmail' && oobCode) {
                 //Estamos en un link de verificación de correo
+                document.title = 'Amigazos - Verificación de cuenta';
                 messageDiv.innerHTML = `
                     <h2>Verificando tu cuenta...</h2>
                     <p>Redirigiendo a la App...</p>
@@ -60,7 +62,7 @@
 
                 setTimeout(function() {
                     //Intenta abrir la App con el código de verificación
-                    const deepLink = 'com.example.amigazos://verifyEmail?oobCode=' + encodeURIComponent(oobCode) + '&mode=verifyEmail';
+                    const deepLink = 'com.mhc.amigazos.android://verifyEmail?oobCode=' + encodeURIComponent(oobCode) + '&mode=verifyEmail';
                     window.location.href = deepLink;
 
                     //Si no se abre en 2 segundos, mostrar fallback
@@ -81,11 +83,59 @@
                 }, 500);
 
             } else {
-                // Página normal o sin parámetros válidos
+                //Landing page para cuando no hay parámetros en la URL
+                document.title = 'Amigazos';
+                messageDiv.style.maxWidth = '480px';
+                messageDiv.style.padding = '0';
+                messageDiv.style.overflow = 'hidden';
                 messageDiv.innerHTML = `
-                    <div style="padding: 20px; text-align: center;">
-                        <h1>Amigazos</h1>
-                        <p>Aplicación de Amigos :)</p>
+                    <div style="background: linear-gradient(135deg, #545ABE 0%, #8B91D4 100%); padding: 36px 30px 28px; text-align: center;">
+                        <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 22px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 42px; backdrop-filter: blur(4px);">
+                            🫂
+                        </div>
+                        <h1 style="font-size: 2.2em; margin: 0 0 6px; color: white; letter-spacing: 1px; font-family: Arial, sans-serif;">Amigazos</h1>
+                        <p style="margin: 0; color: rgba(255,255,255,0.85); font-size: 1em; letter-spacing: 0.5px;">Tu app para conectar con amigos 🤝</p>
+                    </div>
+
+                    <div style="padding: 28px 28px 10px;">
+                        <p style="text-align: center; color: #aaa; font-size: 0.85em; margin: 0 0 20px; text-transform: uppercase; letter-spacing: 1px;">¿Qué puedes hacer?</p>
+
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; align-items: center; gap: 14px; background: #f8f9ff; padding: 14px 16px; border-radius: 12px; border-left: 4px solid #545ABE;">
+                                <span style="font-size: 1.6em;">👫</span>
+                                <div>
+                                    <strong style="color: #545ABE; display: block; font-size: 0.95em;">Conecta con amigos</strong>
+                                    <span style="font-size: 0.82em; color: #999;">Encuentra personas con tus mismos intereses</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 14px; background: #f8f9ff; padding: 14px 16px; border-radius: 12px; border-left: 4px solid #7B82CE;">
+                                <span style="font-size: 1.6em;">💬</span>
+                                <div>
+                                    <strong style="color: #545ABE; display: block; font-size: 0.95em;">Chatea en tiempo real</strong>
+                                    <span style="font-size: 0.82em; color: #999;">Mensajes instantáneos con tus amigos</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 14px; background: #f8f9ff; padding: 14px 16px; border-radius: 12px; border-left: 4px solid #A5ABE0;">
+                                <span style="font-size: 1.6em;">🎉</span>
+                                <div>
+                                    <strong style="color: #545ABE; display: block; font-size: 0.95em;">Comparte momentos</strong>
+                                    <span style="font-size: 0.82em; color: #999;">Vive experiencias increíbles juntos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 24px 28px 28px; text-align: center;">
+                        <a href="https://play.google.com/store/apps/details?id=com.mhc.amigazos.android"
+                           style="display: inline-flex; align-items: center; gap: 10px; background: #545ABE; color: white; text-decoration: none; padding: 14px 26px; border-radius: 12px; font-size: 0.95em; font-weight: bold; box-shadow: 0 4px 16px rgba(84,90,190,0.35);"
+                           onmouseover="this.style.background='#4348A0'"
+                           onmouseout="this.style.background='#545ABE'">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.18 23.76c.31.17.66.22 1.02.14l12.4-7.16-2.68-2.68-10.74 9.7zM20.47 10.6 17.3 8.76l-3.02 3.02 3.02 3.02 3.19-1.85c.9-.52.9-1.83-.02-2.35zM4.2.1C3.84.02 3.49.07 3.18.24L13.94 11 16.62 8.32 4.2.1zM2.4 1.12C2.15 1.46 2 1.88 2 2.36v19.28c0 .48.15.9.4 1.24L13.56 12 2.4 1.12z"/>
+                            </svg>
+                            Descargar en Google Play
+                        </a>
+                        <p style="margin: 18px 0 0; font-size: 0.75em; color: #ccc;">© ${new Date().getFullYear()} Amigazos · Todos los derechos reservados</p>
                     </div>
                 `;
             }

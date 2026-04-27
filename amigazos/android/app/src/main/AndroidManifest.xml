@@ -45,14 +45,14 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="com.mhc.amigazos" android:host="resetPassword"/>
+                <data android:scheme="com.mhc.amigazos.android" android:host="resetPassword"/>
             </intent-filter>
             <!-- Deep link para verificación de correo -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="com.mhc.amigazos" android:host="verifyEmail"/>
+                <data android:scheme="com.mhc.amigazos.android" android:host="verifyEmail"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

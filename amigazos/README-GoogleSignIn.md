@@ -93,7 +93,7 @@ En algunos casos, necesitarás configurar el Client ID manualmente:
    - Click en **+ CREATE CREDENTIALS** → **OAuth 2.0 Client ID**
    - Application type: **Android**
    - Name: "Amigazos Android"
-   - Package name: `com.example.amigazos`
+   - Package name: `com.mhc.amigazos.android`
    - SHA-1: Pega el SHA-1 que obtuviste anteriormente
    - Click en **CREATE**
 
@@ -140,7 +140,7 @@ flutter pub get
 ### El botón no hace nada o se cierra inmediatamente
 - **Causa**: Configuración incorrecta del OAuth
 - **Solución**:
-  1. Verifica que el package name en Firebase coincida con el de tu app: `com.example.amigazos`
+  1. Verifica que el package name en Firebase coincida con el de tu app: `com.mhc.amigazos.android`
   2. Verifica el SHA-1
   3. Espera unos minutos después de hacer cambios en Firebase (puede tardar en propagarse)
 
