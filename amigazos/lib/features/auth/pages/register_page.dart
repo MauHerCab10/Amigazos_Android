@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'email_verification_page.dart';
-//import '../services/firebase_messaging_service.dart';
+//import '../../../core/services/firebase_messaging_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -88,16 +88,6 @@ class _RegisterPageState extends State<RegisterPage> {
           androidInstallApp: true,
         ),
       );
-
-      // //Mostrar notificación push local
-      // await FirebaseMessagingService().showLocalNotification(
-      //   title: '✅ Registro Exitoso',
-      //   body:
-      //       'Te enviamos un correo de verificación. Por favor revisa tu bandeja de entrada.',
-      // );
-
-      //No se cierra la sesión para permitir reenvío del correo
-      //await FirebaseAuth.instance.signOut();
 
       if (mounted) {
         //Navega a la pantalla de verificación de correo
@@ -290,7 +280,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     const SizedBox(height: 10),
 
-                    //Botón de "Registrarse" (deshabilitado si el formulario no es válido o si está cargando)
+                    //Botón de "Registrarse"
                     SizedBox(
                       width: double.infinity,
                       height: 50,

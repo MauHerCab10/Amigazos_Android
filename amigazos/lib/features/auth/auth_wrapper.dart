@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../home/amigazos_home.dart';
-import 'login_page.dart';
+import '../friends/pages/friends_home_page.dart';
+import 'pages/login_page.dart';
 
 //clase "Guardián de Rutas" o "Enrutador Dinámico". Decide q pantalla va a ver el usuario, basándose en si ya inició sesión o no
 class AuthWrapper extends StatelessWidget {
@@ -27,7 +27,7 @@ class AuthWrapper extends StatelessWidget {
           if (!user.emailVerified) {
             return const LoginPage();
           }
-          return const AmigazosHome(); //Usuario verificado y logueado
+          return const FriendsHomePage(); //Usuario verificado y logueado
         }
 
         return const LoginPage(); //Usuario no logueado

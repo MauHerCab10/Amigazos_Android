@@ -158,7 +158,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               backgroundColor: Colors.green,
             ),
           );
-          // Regresar a la pantalla de 'Bienvenido' (AmigazosHome)
+          // Regresar a la pantalla de 'Bienvenido' (FriendsHomePage)
           Navigator.pop(context);
         }
       }
@@ -399,7 +399,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                       ),
                     const SizedBox(height: 10),
 
-                    // Botón para cambiar la contraseña (deshabilitado si el formulario no es válido o si está cargando)
+                    // Botón para cambiar la contraseña
                     SizedBox(
                       width: double.infinity,
                       height: 50,

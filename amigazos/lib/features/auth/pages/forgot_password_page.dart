@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import '../services/firebase_messaging_service.dart';
+//import '../../../core/services/firebase_messaging_service.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -53,15 +53,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         actionCodeSettings: actionCodeSettings,
       );
 
-      // //Mostrar notificación push local
-      // await FirebaseMessagingService().showLocalNotification(
-      //   title: '🔐 Correo Enviado',
-      //   body:
-      //       'Te enviamos un correo para restablecer tu contraseña. Revisa tu bandeja de entrada.',
-      // );
-
       //Firebase Auth (por seguridad) NO revela si un correo está registrado o no responde como si todo estuviera bien,
-      //para evitar que alguien pueda “adivinar correos” y confirmar cuentas registradas (a esto se le conoce como "Email Enumeration Protection"),
+      //para evitar que alguien pueda "adivinar correos" y confirmar cuentas registradas (a esto se le conoce como "Email Enumeration Protection"),
       //por eso, siempre muestro el mismo mensaje de éxito, incluso si el correo no existe o es inválido
       setState(() {
         mensajeExito =

@@ -3,13 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
-import 'auth/auth_wrapper.dart';
-import 'auth/login_page.dart';
+import 'features/auth/auth_wrapper.dart';
+import 'features/auth/pages/login_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app_links/app_links.dart';
-import 'auth/change_password_page.dart';
+import 'features/auth/pages/change_password_page.dart';
 import 'dart:async';
-import 'services/firebase_messaging_service.dart';
+import 'core/services/firebase_messaging_service.dart';
 
 void main() async {
   // 1. Aseguro que los widgets estén vinculados antes de iniciar Firebase

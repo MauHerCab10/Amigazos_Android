@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'forgot_password_page.dart';
 import 'register_page.dart';
-import '../home/amigazos_home.dart';
+import '../../friends/pages/friends_home_page.dart';
 
 //StatefulWidget, porque necesito manejar estados (errores, inputs, etc)
 class LoginPage extends StatefulWidget {
@@ -84,9 +84,9 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       if (mounted) {
-        //Redirige a la pantalla de 'Bienvenido' (AmigazosHome)
+        //Redirige a la pantalla de 'Bienvenido' (FriendsHomePage)
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const AmigazosHome()),
+          MaterialPageRoute(builder: (context) => const FriendsHomePage()),
           (route) => false,
         );
       }
@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
       // Redirige a la pantalla de inicio
       if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const AmigazosHome()),
+          MaterialPageRoute(builder: (context) => const FriendsHomePage()),
           (route) => false,
         );
       }
@@ -411,7 +411,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: 16),
 
-                    //Enlace de registro, que al hacer click llama a la función register() para crear un nuevo usuario en Firebase
+                    //Enlace de registro
                     TextButton(
                       onPressed: cargando
                           ? null
@@ -432,7 +432,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
 
-                    //Enlace para recuperar contraseña, que al hacer click navega a la pantalla de recuperación de contraseña
+                    //Enlace para recuperar contraseña
                     TextButton(
                       onPressed: cargando
                           ? null
