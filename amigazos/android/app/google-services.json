@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "831309978479-u6ocvt4govoia3bufpsfdaofqbbm3fb4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mhc.amigazos.android",
+            "certificate_hash": "c21d670c78cd3e92ce73b133b32d048577aa75d4"
+          }
+        },
+        {
           "client_id": "831309978479-lgutv91rbp96esp4ip3okr99q8dmdf06.apps.googleusercontent.com",
           "client_type": 3
         }
