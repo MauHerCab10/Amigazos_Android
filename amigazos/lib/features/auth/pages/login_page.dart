@@ -206,6 +206,55 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  //Autenticación con MICROSOFT Sign-In (OAuth)
+  // Método para crear usuario e iniciar sesión con el servicio de Microsoft
+  Future<void> loginConMicrosoft() async {
+    setState(() {
+      cargando = true;
+      error = null;
+    });
+
+    try {
+      // Crea el proveedor de Microsoft con los scopes necesarios
+      final microsoftProvider = OAuthProvider('microsoft.com');
+      microsoftProvider.addScope('email');
+      microsoftProvider.addScope('openid');
+      microsoftProvider.addScope('profile');
+      microsoftProvider.setCustomParameters({'tenant': 'common'});
+
+      // Inicia el proceso de autenticación con Microsoft (abre el navegador)
+      await FirebaseAuth.instance.signInWithProvider(microsoftProvider);
+
+      // Redirige a la pantalla de inicio
+      if (mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const FriendsHomePage()),
+          (route) => false,
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        if (e.code == 'account-exists-with-different-credential') {
+          error = 'Ya existe una cuenta con este correo usando otro método';
+        } else if (e.code == 'cancelled-popup-request' ||
+            e.code == 'popup-closed-by-user') {
+          error = null; // El usuario canceló, no mostrar error
+        } else {
+          error =
+              'Error al iniciar sesión con Microsoft: ${e.message ?? e.code}';
+        }
+      });
+    } catch (e) {
+      setState(() {
+        error = 'Error al iniciar sesión con Microsoft: $e';
+      });
+    } finally {
+      setState(() {
+        cargando = false;
+      });
+    }
+  }
+
   @override
   //Construcción de la UI de Login
   Widget build(BuildContext context) {
@@ -282,6 +331,33 @@ class _LoginPageState extends State<LoginPage> {
                         icon: Image.asset('assets/google_logo.png', height: 24),
                         label: const Text(
                           "Continuar con Google",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    // Botón de Microsoft Sign-In
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: OutlinedButton.icon(
+                        onPressed: cargando ? null : loginConMicrosoft,
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: Colors.grey[300]!, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        icon: const _MicrosoftLogo(size: 18),
+                        label: const Text(
+                          "Continuar con Microsoft",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -475,4 +551,52 @@ class _LoginPageState extends State<LoginPage> {
     final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     return regex.hasMatch(email);
   }
+}
+
+// Widget para dibujar el logo de Microsoft (4 cuadros de colores)
+class _MicrosoftLogo extends StatelessWidget {
+  final double size;
+  const _MicrosoftLogo({this.size = 18});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: CustomPaint(painter: _MicrosoftLogoPainter()),
+    );
+  }
+}
+
+// CustomPainter para dibujar el logo de Microsoft con 4 cuadros de colores (rojo, verde, azul y amarillo)
+class _MicrosoftLogoPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final gap = size.width * 0.06;
+    final squareSize = (size.width - gap) / 2;
+
+    // Rojo (arriba-izquierda)
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, squareSize, squareSize),
+      Paint()..color = const Color(0xFFF25022),
+    );
+    // Verde (arriba-derecha)
+    canvas.drawRect(
+      Rect.fromLTWH(squareSize + gap, 0, squareSize, squareSize),
+      Paint()..color = const Color(0xFF7FBA00),
+    );
+    // Azul (abajo-izquierda)
+    canvas.drawRect(
+      Rect.fromLTWH(0, squareSize + gap, squareSize, squareSize),
+      Paint()..color = const Color(0xFF00A4EF),
+    );
+    // Amarillo (abajo-derecha)
+    canvas.drawRect(
+      Rect.fromLTWH(squareSize + gap, squareSize + gap, squareSize, squareSize),
+      Paint()..color = const Color(0xFFFFB900),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
