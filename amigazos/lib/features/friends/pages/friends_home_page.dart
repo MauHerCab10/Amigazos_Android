@@ -19,9 +19,10 @@ class FriendsHomePage extends StatefulWidget {
 class FriendsHomePageState extends State<FriendsHomePage> {
   String? _errorNombre;
   String? _errorCumpleanos;
-  final ScrollController _controllerScrollBar = ScrollController();
-
   DateTime? _fechaAddCumpleanos;
+
+  //Controlador para el ScrollBar de la lista de amigos
+  final ScrollController _controllerScrollBar = ScrollController();
 
   //Controlador para leer lo que el usuario digita en el teclado
   final TextEditingController _controller = TextEditingController();
@@ -311,8 +312,8 @@ class FriendsHomePageState extends State<FriendsHomePage> {
 
                         return FriendCard(
                           friend: friend,
-                          onEdit: () {
-                            mostrarDialogoEdicion(
+                          onEdit: () async {
+                            await mostrarDialogoEdicion(
                               context,
                               docId: friend.id,
                               nombreActual: friend.nombre,
@@ -321,8 +322,8 @@ class FriendsHomePageState extends State<FriendsHomePage> {
                               userId: usuario!.uid,
                             );
                           },
-                          onDelete: () {
-                            mostrarDialogoEliminacion(
+                          onDelete: () async {
+                            await mostrarDialogoEliminacion(
                               context,
                               docId: friend.id,
                               nombre: friend.nombre,
