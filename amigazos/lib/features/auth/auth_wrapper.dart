@@ -23,8 +23,12 @@ class AuthWrapper extends StatelessWidget {
 
         if (snapshot.hasData) {
           final user = snapshot.data!;
+          // Los usuarios OAuth (Google, Microsoft) no necesitan verificación de correo, ya que el proveedor externo garantiza la identidad del usuario.
+          final esUsuarioOAuth = user.providerData.any(
+            (p) => p.providerId != 'password',
+          );
           //Si el usuario aún no ha verificado su correo, así ingrese correctamente sus credenciales, lo redirige al Login
-          if (!user.emailVerified) {
+          if (!esUsuarioOAuth && !user.emailVerified) {
             return const LoginPage();
           }
           return const FriendsHomePage(); //Usuario verificado y logueado
