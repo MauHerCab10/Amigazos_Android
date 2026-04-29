@@ -311,8 +311,8 @@ class FriendsHomePageState extends State<FriendsHomePage> {
 
                         return FriendCard(
                           friend: friend,
-                          onEdit: () {
-                            mostrarDialogoEdicion(
+                          onEdit: () async {
+                            await mostrarDialogoEdicion(
                               context,
                               docId: friend.id,
                               nombreActual: friend.nombre,
@@ -321,8 +321,8 @@ class FriendsHomePageState extends State<FriendsHomePage> {
                               userId: usuario!.uid,
                             );
                           },
-                          onDelete: () {
-                            mostrarDialogoEliminacion(
+                          onDelete: () async {
+                            await mostrarDialogoEliminacion(
                               context,
                               docId: friend.id,
                               nombre: friend.nombre,
